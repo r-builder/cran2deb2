@@ -1,0 +1,7 @@
+[local]
+method = local
+incoming = /etc/cran2deb/archive/debian-amd64/mini-dinstall/incoming
+allow_non-us_software = 1
+run_dinstall = 0
+run_lintian = 1
+allow_unsigned_uploads = 1

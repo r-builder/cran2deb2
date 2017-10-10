@@ -1,0 +1,14 @@
+BASETGZ=/var/cache/pbuilder/base-cran2deb-debian-i386.tgz
+HOOKDIR=/etc/cran2deb/hook
+BUILDRESULT=/var/cache/cran2deb/results/debian-i386
+EXTRAPACKAGES='debhelper r-base-dev cdbs r-base-core lintian xvfb xauth xfonts-base'
+REMOVEPACKAGES='lilo libldap-2.4-2 libopencdk10 libsasl2-2'
+# don't actually need aptitude, but pbuilder insists...
+#REMOVEPACKAGES+='aptitude libcwidget3 libept0 libncursesw5 libsigc++-2.0-0c2a libxapian15'
+DISTRIBUTION=testing
+OTHERMIRROR='deb http://localhost/cran2deb/debian-i386 testing/$(ARCH)/ | deb http://localhost/cran2deb/debian-i386 testing/all/ | deb http://statmath.wu-wien.ac.at/AASC/debian/ testing main'
+MIRRORSITE='http://ftp.at.debian.org/debian/'
+APTCACHE=''
+PBUILDERSATISFYDEPENDSCMD='/usr/lib/pbuilder/pbuilder-satisfydepends-classic'
+DEBOOTSTRAPOPTS='--arch=i386'
+HOOKDIR=/etc/cran2deb/sys/hookdir

@@ -1,0 +1,31 @@
+#!/bin/sh
+last='natural join (select system,package,max(id) as id from builds where package not in (select package from blacklist_packages) group by package,system)'
+
+echo blacklist:
+#sqlite3 -header -column /var/cache/cran2deb/cran2deb.db "select count(*) as total_blacklist,sum(nonfree) as num_nonfree, sum(obsolete) as num_obsolete, sum(broken_dependency) as num_broke_depend, sum(unsatisfied_dependency) as num_unsat_depend, sum(breaks_cran2deb) as num_break_cran2deb, sum(other) as num_other from blacklist_packages;"
+sqlite3 -header -column /var/cache/cran2deb/cran2deb.db "select count(*) as total,sum(nonfree) as nonfree, sum(obsolete) as obsolete, sum(broken_dependency) as broke_depend, sum(unsatisfied_dependency) as unsat_depend, sum(breaks_cran2deb) as break_cran2deb, sum(other) as other from blacklist_packages;"
+
+echo bad licenses:
+sqlite3 /var/cache/cran2deb/cran2deb.db "select system,count(package),group_concat(package) from builds $last where success = 0 and log like '%No acceptable license:%' group by system;"
+echo
+echo bad system req:
+sqlite3 /var/cache/cran2deb/cran2deb.db "select system,count(package),group_concat(package) from builds $last where success = 0 and log like '%do not know what to do with SystemRequirement:%' group by system;"
+echo
+echo 'c/c++ error (maybe):'
+sqlite3 /var/cache/cran2deb/cran2deb.db "select system,count(package),group_concat(package) from builds $last where success = 0 and (log like '%error: %.h: No such file or directory%' or log like '%error: %.hpp: No such file or directory%') group by system;"
+echo
+echo 'missing r-cran- package:'
+sqlite3 /var/cache/cran2deb/cran2deb.db "select system,count(package),group_concat(package) from builds $last where success = 0 and (log like \"%E: Couldn't find package r-cran-%\") group by system;"
+
+echo
+echo 'missing r-cran- package: (frequency, missing package)'
+cran2deb latest_log $(sqlite3 /var/cache/cran2deb/cran2deb.db "select system,count(package),group_concat(package) from builds $last where success = 0 and (log like \"%E: Couldn't find package r-cran-%\") group by system;" | head -n 1 | cut -d'|' -f3- | tr ',' ' ') 2>/dev/null | grep "^E: Couldn't find package r-cran-" | awk '{print $5}' | sort | uniq -c | sort -rn
+
+echo
+echo 'lintian:'
+sqlite3 /var/cache/cran2deb/cran2deb.db "select system,count(package),group_concat(package) from builds $last where success = 0 and (log like \"%E: r-cran-%\") group by system;"
+echo
+echo some other dependency failure:
+sqlite3 /var/cache/cran2deb/cran2deb.db "select system,count(package),group_concat(package) from builds $last where success = 0 and (log like '%Error: package % could not be loaded%' or log like '%ERROR: lazy loading failed for package%' or log like '%is not available%' or log like '%there is no package called%') and not (log like \"%E: Couldn't find package r-cran-%\") group by system;"
+
+

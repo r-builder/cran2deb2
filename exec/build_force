@@ -1,0 +1,74 @@
+#!/usr/bin/env r
+## DOC: cran2deb build [-d] [-D extra_dep1,extra_dep2,...] package1 package2 ...
+## DOC:     builds a particular package.
+## DOC:		-d   leave the staging directory around for debugging.
+## DOC:
+suppressPackageStartupMessages(library(cran2deb))
+
+notice(argv)
+if (exists('argv')) { # check for littler
+    argc <- length(argv)
+    extra_deps = list()
+    extra_deps$deb = c()
+    extra_deps$r = c()
+    do_cleanup = T
+    opts = c('-D','-R','-d')
+    # first argument is the root --- this is dealt with elsewhere.
+    for (i in 2:argc) {
+        if (!(argv[i] %in% opts)) {
+            if (argc >= i) {
+                argv <- argv[i:argc]
+            } else {
+                argv <- list()
+            }
+            argc = argc - i + 1
+            break
+        }
+        if (i == argc) {
+            err('missing argument')
+        }
+        if (argv[i] == '-D') {
+            extra_deps$deb = c(extra_deps$deb,strsplit(chomp(argv[i+1]),',')[[1]])
+        }
+        if (argv[i] == '-R') {
+            extra_deps$r = c(extra_deps$r,strsplit(chomp(argv[i+1]),',')[[1]])
+            extra_deps$deb = c(extra_deps$deb,lapply(extra_deps$r,pkgname_as_debian))
+        }
+        if (argv[i] == '-d') { #debug
+            do_cleanup = F
+        }
+    }
+    if (argc == 0) {
+        err('usage: cran2deb build [-d] [-D extra_dep1,extra_dep2,...] package package ...')
+    }
+    build_order <- r_dependency_closure(c(extra_deps$r,argv))
+    #cat("build_order: "); print(build_order);
+    notice('build order',ifelse(0<length(build_order),paste(build_order,collapse=', ',sep="")," nothing to be built"))
+    for (pkg in build_order) {
+        #cat("Invoking build of '",pkg,"'\n",sep="")
+        build(pkg,extra_deps,force=pkg %in% argv, do_cleanup)               
+        # Force the build if the package is in the argument
+        # Do I want that? I don't think so.  If it exists, don't build it.
+        #build(pkg,extra_deps,force=F, do_cleanup)
+    }
+#   notice('Starting upload section!')
+#    upload_order <- c()
+#    for (pkg in build_order) {
+#       version <- try(new_build_version(pkg))
+#       if (needs_upload(pkg,version)) {
+#       upload_order <- paste(upload_order,tolower(pkg))
+#      }
+#    }
+#    if (length(upload_order) > 0) { 
+#      cmd <- paste('/home/mrutter/R/c2d4u/update-c2d4u.sh -p',upload_order,sep="")
+#      notice('upload command:',cmd)
+#      ret <- log_system(cmd)
+#      if (ret != 0) {
+#        fail('Failed to upload packages.')
+#      }
+#    } else {
+#    notice('Nothing to upload to launchpad.')
+#    }
+} else {
+   cat("exec/build: argv not existing.\n")
+}

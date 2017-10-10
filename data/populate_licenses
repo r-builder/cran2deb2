@@ -1,0 +1,120 @@
+accept AGPL
+accept APACHE
+accept ARTISTIC
+accept BSD
+accept CPL
+accept CeCILL
+accept EUPL
+accept GPL
+accept GPL+ACM
+accept GPL+QHULL
+accept GPLQA
+accept LGPL
+reject MCLUST
+accept MIT
+accept MPL
+accept NISTnls
+accept TCLTK2
+accept UNCLEAR
+accept UNLIMITED
+accept X11
+accept acepack
+accept distrib-noncomm
+accept ff
+accept grade
+accept mmcm
+accept mvpart
+accept rtiff
+accept scagnostics
+accept tripack
+hash APACHE /usr/share/common-licenses/Apache-2.0
+hash ARTISTIC /usr/share/common-licenses/Artistic
+hash BSD /usr/share/common-licenses/BSD
+hash GPL /usr/share/common-licenses/GPL-2
+hash GPL /usr/share/common-licenses/GPL-3
+hash LGPL /usr/share/common-licenses/LGPL-2
+hash LGPL /usr/share/common-licenses/LGPL-2.1
+hash LGPL /usr/share/common-licenses/LGPL-3
+pkg AGPL AIS
+pkg AGPL BARD
+pkg AGPL Zelig
+pkg AGPL accuracy
+pkg BSD minpack.lm
+pkg CPL lmom
+pkg CeCILL LLAhclust
+pkg EUPL EVER
+pkg GPL BayesDA
+pkg GPL CDNmoney
+pkg GPL HTMLapplets
+pkg GPL ICE
+pkg GPL ICEinfer
+pkg GPL NMMAPSlite
+pkg GPL PET
+pkg GPL PKtools
+pkg GPL RXshrink
+pkg GPL Rigroup
+pkg GPL TWIX
+pkg GPL aplpack
+pkg GPL degreenet
+pkg GPL ergm
+pkg GPL gllm
+pkg GPL gmodels
+pkg GPL ibdreg
+pkg GPL latentnet
+pkg GPL moc
+pkg GPL network
+pkg GPL networksis
+pkg GPL partsm
+pkg GPL pastecs
+pkg GPL pbatR
+pkg GPL rake
+pkg GPL reldist
+pkg GPL snpMatrix
+pkg GPL splancs
+pkg GPL statnet
+pkg GPL timsac
+pkg GPL tsfa
+pkg GPL uroot
+pkg GPL+ACM akima
+pkg GPL+ACM tripack
+pkg GPL+QHULL geometry
+pkg GPLQA regtest
+pkg LGPL R.huge
+pkg MCLUST mclust
+pkg NISTnls NISTnls
+pkg TCLTK2 tcltk2
+pkg UNCLEAR adapt
+pkg UNCLEAR cat
+pkg UNCLEAR cosmo
+pkg UNCLEAR mix
+pkg UNCLEAR mlmm
+pkg UNCLEAR norm
+pkg UNCLEAR pan
+pkg UNCLEAR titecrm
+pkg UNCLEAR tlnise
+pkg UNLIMITED boolean
+pkg acepack acepack
+pkg distrib-noncomm mlbench
+pkg ff ff
+pkg scagnostics scagnostics
+pkg tripack tripack
+pkg BSD rtiff
+pkg MCLUST mclust02
+pkg distrib-noncomm CoCo
+accept GPL+AGPL
+pkg GPL+AGPL FAiR
+accept CPL
+pkg CPL Rcsdp
+accept CC-SA
+pkg CC-SA SGP
+accept ACM
+pkg ACM alphahull
+pkg ACM asypow
+accept caMassClass
+pkg caMassClass caMassClass
+pkg ARTISTIC matlab
+pkg GPL mmcm
+pkg GPL mvpart
+accept rwt
+pkg rwt rwt
+pkg UNCLEAR sgeostat
